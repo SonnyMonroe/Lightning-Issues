@@ -1,0 +1,9 @@
+TODO LIST
+
+[ ] Add support for GitLab and Bitbucket repositories.
+[ ] Implement "Regenerate" button to get 3 new suggestions without re-entering inputs.
+[ ] Allow users to edit the generated Markdown directly in the app before clicking "Create".
+[ ] Save "Favorite" repos to local storage for quick access.
+[ ] Add a "History" tab to show previously generated issues.
+[ ] Improve error handling for repositories that have disabled Issues.
+[ ] Add support for custom API keys so users can use their own quota.

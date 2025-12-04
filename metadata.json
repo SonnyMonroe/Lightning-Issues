@@ -1,0 +1,5 @@
+{
+  "name": "GitHub Issue Creator",
+  "description": "AI-powered assistant that analyzes GitHub repositories to suggest comprehensive issues, features, and bug fixes, generating ready-to-post links instantly.",
+  "requestFramePermissions": []
+}

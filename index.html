@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>GitHub Issue Creator</title>
+    <link rel="icon" type="image/png" href="/images/logo.png" />
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script>
+      tailwind.config = {
+        darkMode: 'class',
+        theme: {
+          extend: {
+            fontFamily: {
+              sans: ['Inter', 'sans-serif'],
+            },
+            colors: {
+              github: {
+                dark: 'var(--bg-page)',
+                card: 'var(--bg-card)',
+                border: 'var(--border-color)',
+                text: 'var(--text-main)',
+                secondary: 'var(--text-secondary)',
+                primary: '#238636',
+                primaryHover: '#2ea043',
+                accent: 'var(--accent-color)'
+              }
+            }
+          }
+        }
+      }
+    </script>
+    <style>
+      :root {
+        /* Default Dark Mode */
+        --bg-page: #0d1117;
+        --bg-card: #161b22;
+        --border-color: #30363d;
+        --text-main: #c9d1d9;
+        --text-secondary: #8b949e;
+        --accent-color: #58a6ff;
+      }
+
+      /* Light Mode Overrides */
+      :root[data-theme="light"] {
+        --bg-page: #ffffff;
+        --bg-card: #f6f8fa;
+        --border-color: #d0d7de;
+        --text-main: #24292f;
+        --text-secondary: #57606a;
+        --accent-color: #0969da;
+      }
+
+      body {
+        background-color: var(--bg-page);
+        color: var(--text-main);
+        transition: background-color 0.3s ease, color 0.3s ease;
+      }
+      
+      /* Custom scrollbar for markdown preview */
+      .custom-scrollbar::-webkit-scrollbar {
+        width: 8px;
+        height: 8px;
+      }
+      .custom-scrollbar::-webkit-scrollbar-track {
+        background: var(--bg-page); 
+      }
+      .custom-scrollbar::-webkit-scrollbar-thumb {
+        background: var(--border-color); 
+        border-radius: 4px;
+      }
+      .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+        background: var(--accent-color); 
+      }
+    </style>
+  <script type="importmap">
+{
+  "imports": {
+    "lucide-react": "https://aistudiocdn.com/lucide-react@^0.555.0",
+    "react/": "https://aistudiocdn.com/react@^19.2.0/",
+    "react": "https://aistudiocdn.com/react@^19.2.0",
+    "react-dom/": "https://aistudiocdn.com/react-dom@^19.2.0/",
+    "@google/genai": "https://aistudiocdn.com/@google/genai@^1.30.0"
+  }
+}
+</script>
+</head>
+  <body>
+    <div id="root"></div>
+  </body>
+</html>
