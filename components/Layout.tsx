@@ -1,8 +1,10 @@
 import React, { useState, useEffect } from 'react';
-import { Github, Zap, Sun, Moon, Twitter, Linkedin, Youtube, Menu, X } from 'lucide-react';
+import { Github, Zap, Sun, Moon, Linkedin, Youtube, Menu, X, ArrowLeft } from 'lucide-react';
 
 interface LayoutProps {
   children: React.ReactNode;
+  onNavigate?: (page: string) => void;
+  currentPage?: string;
 }
 
 // Custom Icon for Nostr since it's not in Lucide
@@ -21,7 +23,7 @@ const NostrIcon = ({ size = 18, className = "" }: { size?: number, className?: s
   </svg>
 );
 
-export const Layout: React.FC<LayoutProps> = ({ children }) => {
+export const Layout: React.FC<LayoutProps> = ({ children, onNavigate, currentPage = 'home' }) => {
   const [theme, setTheme] = useState<'dark' | 'light'>('dark');
   const [imageError, setImageError] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
@@ -43,6 +45,15 @@ export const Layout: React.FC<LayoutProps> = ({ children }) => {
     setIsMobileMenuOpen(!isMobileMenuOpen);
   };
 
+  const handleNav = (page: string, e: React.MouseEvent) => {
+    e.preventDefault();
+    if (onNavigate) {
+      onNavigate(page);
+      setIsMobileMenuOpen(false);
+      window.scrollTo(0, 0);
+    }
+  };
+
   const headerLogoSrc = 'images/logo.png';
   const footerLogoSrc = 'images/logo2.png';
 
@@ -52,7 +63,10 @@ export const Layout: React.FC<LayoutProps> = ({ children }) => {
         <div className="max-w-5xl mx-auto px-4 h-16 flex items-center justify-between">
           
           {/* Logo Section */}
-          <div className="flex items-center gap-2 sm:gap-3 overflow-hidden">
+          <button 
+            onClick={(e) => handleNav('home', e)}
+            className="flex items-center gap-2 sm:gap-3 overflow-hidden hover:opacity-80 transition-opacity focus:outline-none"
+          >
             <div className="flex-shrink-0">
               {!imageError ? (
                 <img 
@@ -74,7 +88,7 @@ export const Layout: React.FC<LayoutProps> = ({ children }) => {
             <h1 className="font-bold text-sm sm:text-lg tracking-tight text-github-text truncate">
               Lightning Issues
             </h1>
-          </div>
+          </button>
 
           {/* Desktop Navigation */}
           <div className="hidden md:flex items-center gap-4 text-sm text-github-secondary">
@@ -109,86 +123,103 @@ export const Layout: React.FC<LayoutProps> = ({ children }) => {
         {/* Mobile Navigation Dropdown */}
         {isMobileMenuOpen && (
           <div className="md:hidden border-t border-github-border bg-github-card px-4 py-4 space-y-4 animate-in slide-in-from-top-2 shadow-xl">
+             <button onClick={(e) => handleNav('home', e)} className="block w-full text-left text-github-text font-medium hover:text-github-accent py-2">Home</button>
+             <button onClick={(e) => handleNav('features', e)} className="block w-full text-left text-github-text font-medium hover:text-github-accent py-2">Features</button>
+             <button onClick={(e) => handleNav('about', e)} className="block w-full text-left text-github-text font-medium hover:text-github-accent py-2">About</button>
+             <button onClick={(e) => handleNav('faq', e)} className="block w-full text-left text-github-text font-medium hover:text-github-accent py-2">FAQ</button>
+             <div className="border-t border-github-border my-2"></div>
              <a href="https://docs.lightningbounties.com/docs" className="block text-github-text font-medium hover:text-github-accent py-2">Documentation</a>
              <a href="https://discord.com/invite/zBxj4x4Cbq" className="block text-github-text font-medium hover:text-github-accent py-2">Support</a>
           </div>
         )}
       </header>
 
-      <main className="flex-1 max-w-5xl mx-auto px-4 py-8 w-full">
+      <main className="flex-1 max-w-5xl mx-auto px-4 py-8 w-full relative">
+        {currentPage !== 'home' && (
+            <button 
+                onClick={() => onNavigate && onNavigate('home')}
+                className="mb-6 flex items-center gap-2 text-github-secondary hover:text-github-accent transition-colors font-medium group"
+            >
+                <ArrowLeft size={20} className="group-hover:-translate-x-1 transition-transform" />
+                Back to Generator
+            </button>
+        )}
         {children}
       </main>
 
-      <footer className="border-t border-github-border bg-github-card pt-6 pb-6 transition-colors duration-300">
-        <div className="max-w-5xl mx-auto px-4">
-            {/* Top Brand Section - Full width on mobile to avoid squishing */}
-            <div className="mb-6 md:mb-8">
-                <div className="-mb-14">
-                  {!imageError ? (
-                    <img 
-                        src={footerLogoSrc}
-                        alt="Lightning Bounties" 
-                        className="h-64 w-auto object-contain object-left"
-                        onError={() => setImageError(true)}
-                    />
-                  ) : (
-                     <span className="font-bold text-lg tracking-tight text-github-text flex items-center gap-1">
-                        <Zap className="text-github-accent fill-current" size={20} />
-                        Lightning Bounties
-                     </span>
-                  )}
-                </div>
-                <p className="text-sm text-github-secondary leading-relaxed max-w-md relative z-10">
-                    The official issue generator for Lightning Bounties. Create professional, bounty-ready issues in seconds and streamline your path to earning rewards in open source.
-                </p>
-            </div>
-
-            {/* 3 Column Links Grid - Optimized for Mobile */}
-            <div className="grid grid-cols-3 gap-4 md:gap-6 mb-8">
+      <footer className="border-t border-github-border bg-github-card py-12 transition-colors duration-300">
+        <div className="max-w-6xl mx-auto px-4">
+            <div className="flex flex-col lg:flex-row gap-10 lg:gap-20">
                 
-                {/* Explore */}
-                <div>
-                    <h3 className="font-semibold text-github-text mb-4 text-sm md:text-base">Explore</h3>
-                    <ul className="space-y-3 text-xs md:text-sm text-github-secondary">
-                        <li><a href="#" className="hover:text-github-accent transition-colors">Features</a></li>
-                        <li><a href="#" className="hover:text-github-accent transition-colors">About</a></li>
-                        <li><a href="https://blog.lightningbounties.com/" className="hover:text-github-accent transition-colors">Blog</a></li>
-                    </ul>
+                {/* Brand Section - Left */}
+                <div className="lg:w-5/12 flex flex-col items-start">
+                    <div className="relative -ml-4 -mt-6 mb-4 z-0">
+                      {!imageError ? (
+                        <img 
+                            src={footerLogoSrc}
+                            alt="Lightning Bounties" 
+                            className="w-64 md:w-72 h-auto object-contain object-left"
+                            onError={() => setImageError(true)}
+                        />
+                      ) : (
+                         <span className="font-bold text-lg tracking-tight text-github-text flex items-center gap-1 mb-4">
+                            <Zap className="text-github-accent fill-current" size={20} />
+                            Lightning Bounties
+                         </span>
+                      )}
+                    </div>
+                    <p className="text-sm text-github-secondary leading-relaxed relative z-10">
+                        The official issue generator for Lightning Bounties. Create professional, bounty-ready issues in seconds and streamline your path to earning rewards in open source.
+                    </p>
                 </div>
 
-                {/* Resources */}
-                <div>
-                    <h3 className="font-semibold text-github-text mb-4 text-sm md:text-base">Resources</h3>
-                    <ul className="space-y-3 text-xs md:text-sm text-github-secondary">
-                        <li><a href="https://docs.lightningbounties.com/docs" className="hover:text-github-accent transition-colors">Docs</a></li>
-                        <li><a href="#" className="hover:text-github-accent transition-colors">FAQ</a></li>
-                        <li><a href="https://discord.gg/zBxj4x4Cbq" className="hover:text-github-accent transition-colors">Support</a></li>
-                    </ul>
-                </div>
+                {/* Links Section - Right (3 Cols) */}
+                <div className="lg:w-7/12 grid grid-cols-2 sm:grid-cols-3 gap-8">
+                    
+                    {/* Explore */}
+                    <div>
+                        <h3 className="font-semibold text-github-text mb-4 text-sm md:text-base">Explore</h3>
+                        <ul className="space-y-3 text-xs md:text-sm text-github-secondary">
+                            <li><button onClick={(e) => handleNav('features', e)} className="hover:text-github-accent transition-colors text-left">Features</button></li>
+                            <li><button onClick={(e) => handleNav('about', e)} className="hover:text-github-accent transition-colors text-left">About</button></li>
+                            <li><a href="https://blog.lightningbounties.com/" className="hover:text-github-accent transition-colors">Blog</a></li>
+                        </ul>
+                    </div>
 
-                {/* Community / Connect */}
-                <div>
-                    <h3 className="font-semibold text-github-text mb-4 text-sm md:text-base">Connect</h3>
-                    <div className="flex flex-col gap-3">
-                         <div className="flex gap-4 text-github-secondary">
-                            <a href="https://x.com/LBounties" className="hover:text-github-accent transition-colors" title="Twitter"><Twitter size={18} /></a>
-                            <a href="https://www.linkedin.com/company/lightning-bounties/" className="hover:text-github-accent transition-colors" title="LinkedIn"><Linkedin size={18} /></a>
-                         </div>
-                         <div className="flex gap-4 text-github-secondary">
-                            <a href="#" className="hover:text-github-accent transition-colors" title="GitHub"><Github size={18} /></a>
-                            <a href="#" className="hover:text-[#8e44ad] transition-colors" title="Nostr"><NostrIcon size={18} /></a>
-                            <a href="#" className="hover:text-red-500 transition-colors" title="YouTube"><Youtube size={18} /></a>
-                         </div>
+                    {/* Resources */}
+                    <div>
+                        <h3 className="font-semibold text-github-text mb-4 text-sm md:text-base">Resources</h3>
+                        <ul className="space-y-3 text-xs md:text-sm text-github-secondary">
+                            <li><a href="https://docs.lightningbounties.com/docs" className="hover:text-github-accent transition-colors">Docs</a></li>
+                            <li><button onClick={(e) => handleNav('faq', e)} className="hover:text-github-accent transition-colors text-left">FAQ</button></li>
+                            <li><a href="https://discord.gg/zBxj4x4Cbq" className="hover:text-github-accent transition-colors">Support</a></li>
+                        </ul>
+                    </div>
+
+                    {/* Connect */}
+                    <div>
+                        <h3 className="font-semibold text-github-text mb-4 text-sm md:text-base">Connect</h3>
+                        <div className="flex flex-col gap-3">
+                             <div className="flex gap-4 text-github-secondary">
+                                <a href="https://x.com/LBounties" className="hover:text-github-accent transition-colors" title="X (Twitter)"><X size={18} /></a>
+                                <a href="https://www.linkedin.com/company/lightning-bounties/" className="hover:text-github-accent transition-colors" title="LinkedIn"><Linkedin size={18} /></a>
+                             </div>
+                             <div className="flex gap-4 text-github-secondary">
+                                <a href="https://github.com/SonnyMonroe/Lightning-Issues" className="hover:text-github-accent transition-colors" title="GitHub"><Github size={18} /></a>
+                                <a href="primal.net/p/nprofile1qqsxjszwrjqxjetnfeh9r2kea3jyz4uqxedyawwq58f2cc4uqwtrq7gyjy2yn" className="hover:text-[#8e44ad] transition-colors" title="Nostr"><NostrIcon size={18} /></a>
+                                <a href="https://www.youtube.com/@LightningBounties" className="hover:text-red-500 transition-colors" title="YouTube"><Youtube size={18} /></a>
+                             </div>
+                        </div>
                     </div>
                 </div>
             </div>
             
-            <div className="border-t border-github-border pt-6 flex flex-col md:flex-row justify-between items-center gap-4 text-center md:text-left">
+            <div className="border-t border-github-border mt-10 pt-6 flex flex-col md:flex-row justify-between items-center gap-4 text-center md:text-left">
                 <p className="text-xs text-github-secondary">
                     © 2025 Lightning Issues. Powered by Lightning Bounties.
                 </p>
                 <div className="flex gap-6 text-xs text-github-secondary">
-                    {/* Empty div for layout balance or future legal links */}
+                    {/* Legal links placeholder */}
                 </div>
             </div>
         </div>

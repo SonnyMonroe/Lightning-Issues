@@ -81,7 +81,7 @@ export const generateIssueSuggestions = async (
     For each suggestion, provide:
     - A clear, professional Title.
     - A very detailed Body in GitHub-flavored Markdown. Include headers, code blocks where relevant, and a 'Tasks' list.
-    - The type of issue (Bug, Feature, Refactor, Documentation).
+    - The type of issue. Choose from: Bug, Feature, Refactor, Documentation, Security, Performance, Accessibility, Testing, Chore, Design.
     - A short reasoning explaining why this is valuable.
 
     CRITICAL FALLBACK:

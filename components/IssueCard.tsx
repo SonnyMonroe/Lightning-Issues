@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { ExternalLink, Copy, Check, ChevronDown, ChevronUp, Bug, Lightbulb, FileText, Hammer, Pencil, X, Save, Image as ImageIcon, Smile, Bold, Italic, List, Maximize2, Minimize2, Search, Undo, Redo, Eye, EyeOff } from 'lucide-react';
+import { ExternalLink, Copy, Check, ChevronDown, ChevronUp, Bug, Lightbulb, FileText, Hammer, Pencil, X, Save, Image as ImageIcon, Smile, Bold, Italic, List, Maximize2, Minimize2, Search, Undo, Redo, Eye, EyeOff, ShieldAlert, Zap, Accessibility, TestTube, Palette, Wrench } from 'lucide-react';
 import { IssueSuggestion, IssueType, RepoInfo } from '../types';
 
 // Declare marked for TypeScript (loaded via CDN)
@@ -164,6 +164,12 @@ export const IssueCard: React.FC<IssueCardProps> = ({ suggestion, repoInfo }) =>
       case IssueType.FEATURE: return <Lightbulb size={18} className="text-amber-600 dark:text-yellow-400" />;
       case IssueType.DOCS: return <FileText size={18} className="text-blue-600 dark:text-blue-400" />;
       case IssueType.REFACTOR: return <Hammer size={18} className="text-purple-600 dark:text-purple-400" />;
+      case IssueType.SECURITY: return <ShieldAlert size={18} className="text-orange-600 dark:text-orange-400" />;
+      case IssueType.PERFORMANCE: return <Zap size={18} className="text-yellow-600 dark:text-yellow-300" />;
+      case IssueType.ACCESSIBILITY: return <Accessibility size={18} className="text-pink-600 dark:text-pink-400" />;
+      case IssueType.TEST: return <TestTube size={18} className="text-teal-600 dark:text-teal-400" />;
+      case IssueType.CHORE: return <Wrench size={18} className="text-gray-600 dark:text-gray-400" />;
+      case IssueType.DESIGN: return <Palette size={18} className="text-indigo-600 dark:text-indigo-400" />;
       default: return <Lightbulb size={18} className="text-gray-600 dark:text-gray-400" />;
     }
   };
@@ -178,6 +184,18 @@ export const IssueCard: React.FC<IssueCardProps> = ({ suggestion, repoInfo }) =>
         return 'bg-blue-50 text-blue-700 border-blue-200 dark:bg-blue-900/20 dark:text-blue-200 dark:border-blue-900/30';
       case IssueType.REFACTOR: 
         return 'bg-purple-50 text-purple-700 border-purple-200 dark:bg-purple-900/20 dark:text-purple-200 dark:border-purple-900/30';
+      case IssueType.SECURITY:
+        return 'bg-orange-50 text-orange-700 border-orange-200 dark:bg-orange-900/20 dark:text-orange-200 dark:border-orange-900/30';
+      case IssueType.PERFORMANCE:
+        return 'bg-yellow-50 text-yellow-700 border-yellow-200 dark:bg-yellow-900/20 dark:text-yellow-200 dark:border-yellow-900/30';
+      case IssueType.ACCESSIBILITY:
+        return 'bg-pink-50 text-pink-700 border-pink-200 dark:bg-pink-900/20 dark:text-pink-200 dark:border-pink-900/30';
+      case IssueType.TEST:
+        return 'bg-teal-50 text-teal-700 border-teal-200 dark:bg-teal-900/20 dark:text-teal-200 dark:border-teal-900/30';
+      case IssueType.CHORE:
+        return 'bg-gray-100 text-gray-700 border-gray-200 dark:bg-gray-800 dark:text-gray-300 dark:border-gray-700';
+      case IssueType.DESIGN:
+        return 'bg-indigo-50 text-indigo-700 border-indigo-200 dark:bg-indigo-900/20 dark:text-indigo-200 dark:border-indigo-900/30';
       default: 
         return 'bg-gray-100 text-gray-700 border-gray-200 dark:bg-gray-800 dark:text-gray-300 dark:border-gray-700';
     }
@@ -196,13 +214,22 @@ export const IssueCard: React.FC<IssueCardProps> = ({ suggestion, repoInfo }) =>
     params.set('title', title);
     params.set('body', body);
     
-    const labelMap = {
+    const labelMap: Record<string, string> = {
         [IssueType.BUG]: 'bug',
         [IssueType.FEATURE]: 'enhancement',
         [IssueType.DOCS]: 'documentation',
-        [IssueType.REFACTOR]: 'refactor'
+        [IssueType.REFACTOR]: 'refactor',
+        [IssueType.SECURITY]: 'security',
+        [IssueType.PERFORMANCE]: 'performance',
+        [IssueType.ACCESSIBILITY]: 'accessibility',
+        [IssueType.TEST]: 'test',
+        [IssueType.CHORE]: 'chore',
+        [IssueType.DESIGN]: 'design'
     };
-    params.set('labels', labelMap[suggestion.type]);
+    
+    // Default to 'triage' if no match or just use value
+    const label = labelMap[suggestion.type] || 'triage';
+    params.set('labels', label);
     
     window.open(`${baseUrl}?${params.toString()}`, '_blank');
   };
