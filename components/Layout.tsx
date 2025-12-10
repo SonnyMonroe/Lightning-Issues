@@ -44,7 +44,7 @@ export const Layout: React.FC<LayoutProps> = ({ children }) => {
   };
 
   // Using relative path 'images/logo.svg' which maps to 'public/images/logo.svg' in standard setups.
-  const logoSrc = 'images/logo.svg';
+  const logoSrc = 'images/logo.png';
 
   return (
     <div className="flex flex-col min-h-screen bg-github-dark text-github-text font-sans selection:bg-github-accent selection:text-white transition-colors duration-300">
