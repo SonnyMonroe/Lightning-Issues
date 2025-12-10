@@ -127,6 +127,7 @@ export const Layout: React.FC<LayoutProps> = ({ children, onNavigate, currentPag
              <button onClick={(e) => handleNav('features', e)} className="block w-full text-left text-github-text font-medium hover:text-github-accent py-2">Features</button>
              <button onClick={(e) => handleNav('about', e)} className="block w-full text-left text-github-text font-medium hover:text-github-accent py-2">About</button>
              <button onClick={(e) => handleNav('faq', e)} className="block w-full text-left text-github-text font-medium hover:text-github-accent py-2">FAQ</button>
+             <button onClick={(e) => handleNav('templates', e)} className="block w-full text-left text-github-text font-medium hover:text-github-accent py-2">Issue Templates</button>
              <div className="border-t border-github-border my-2"></div>
              <a href="https://docs.lightningbounties.com/docs" className="block text-github-text font-medium hover:text-github-accent py-2">Documentation</a>
              <a href="https://discord.com/invite/zBxj4x4Cbq" className="block text-github-text font-medium hover:text-github-accent py-2">Support</a>
@@ -169,19 +170,20 @@ export const Layout: React.FC<LayoutProps> = ({ children, onNavigate, currentPag
                       )}
                     </div>
                     <p className="text-sm text-github-secondary leading-relaxed relative z-10 block max-w-sm">
-                        The official issue generator for Lightning Bounties. Create professional, bounty-ready issues in seconds and streamline your path to earning rewards in open source.
+                        The official issue generator for Lightning Bounties. Create professional, bounty-ready issues in seconds and streamline your path to earning Bitcoin on Lightning Bounties.
                     </p>
                 </div>
 
                 {/* Links Section - Right (4 Cols) */}
                 <div className="lg:w-8/12 grid grid-cols-2 sm:grid-cols-4 gap-8">
                     
-                    {/* Platform (New) */}
+                    {/* Platform */}
                     <div>
                         <h3 className="font-semibold text-github-text mb-4 text-sm md:text-base">Platform</h3>
                         <ul className="space-y-3 text-xs md:text-sm text-github-secondary">
                             <li><a href="https://app.lightningbounties.com/" className="hover:text-github-accent transition-colors">Browse Bounties</a></li>
                             <li><a href="https://www.lightningbounties.com/" className="hover:text-github-accent transition-colors">Website</a></li>
+                            <li><a href="https://discord.gg/zBxj4x4Cbq" className="hover:text-github-accent transition-colors">Support</a></li>
                         </ul>
                     </div>
 
@@ -201,7 +203,7 @@ export const Layout: React.FC<LayoutProps> = ({ children, onNavigate, currentPag
                         <ul className="space-y-3 text-xs md:text-sm text-github-secondary">
                             <li><a href="https://docs.lightningbounties.com/docs" className="hover:text-github-accent transition-colors">Docs</a></li>
                             <li><button onClick={(e) => handleNav('faq', e)} className="hover:text-github-accent transition-colors text-left">FAQ</button></li>
-                            <li><a href="https://discord.gg/zBxj4x4Cbq" className="hover:text-github-accent transition-colors">Support</a></li>
+                            <li><button onClick={(e) => handleNav('templates', e)} className="hover:text-github-accent transition-colors text-left">Issue Templates</button></li>
                         </ul>
                     </div>
 

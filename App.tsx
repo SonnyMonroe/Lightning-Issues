@@ -5,12 +5,13 @@ import { IssueCard } from './components/IssueCard';
 import { Features } from './components/pages/Features';
 import { About } from './components/pages/About';
 import { FAQ } from './components/pages/FAQ';
+import { IssueTemplates } from './components/pages/IssueTemplates';
 import { generateIssueSuggestions, parseRepoUrl } from './services/geminiService';
 import { GenerateState, RepoInfo, HistoryItem, IssueSuggestion } from './types';
-import { AlertCircle, ScanSearch, FileSignature, Rocket, History, Sparkles, Trash2, ArrowRight } from 'lucide-react';
+import { CircleAlert, ScanSearch, FileSignature, Rocket, History, Sparkles, Trash, ArrowRight, Search, Github, Zap } from 'lucide-react';
 
 const App: React.FC = () => {
-  const [currentPage, setCurrentPage] = useState('home'); // home, features, about, faq
+  const [currentPage, setCurrentPage] = useState('home'); // home, features, about, faq, templates
   const [activeTab, setActiveTab] = useState<'generate' | 'history'>('generate');
   const [state, setState] = useState<GenerateState>({
     isLoading: false,
@@ -139,7 +140,7 @@ const App: React.FC = () => {
               {/* Error State */}
               {state.error && (
               <div className="w-full max-w-2xl p-4 bg-red-900/20 border border-red-900/50 rounded-lg flex items-start gap-3 text-red-200 mb-8 animate-in fade-in slide-in-from-bottom-4">
-                  <AlertCircle className="shrink-0 mt-0.5" />
+                  <CircleAlert className="shrink-0 mt-0.5" />
                   <p>{state.error}</p>
               </div>
               )}
@@ -173,41 +174,102 @@ const App: React.FC = () => {
               </div>
               )}
               
-              {/* Features Section / Empty State */}
+              {/* HOW IT WORKS & FEATURES (Only show when not generated) */}
               {!state.data && !state.isLoading && !state.error && (
-                  <div className="mt-16 grid grid-cols-1 md:grid-cols-3 gap-6 w-full max-w-5xl px-4">
-                      {/* Feature 1 */}
-                      <button onClick={() => navigateTo('features')} className="text-left group p-6 rounded-2xl bg-github-card border border-github-border hover:border-github-accent/50 transition-all duration-300 hover:shadow-lg hover:shadow-github-accent/5">
-                          <div className="w-14 h-14 rounded-xl bg-github-dark border border-github-border flex items-center justify-center mx-auto mb-6 text-github-accent group-hover:scale-110 transition-transform duration-300 group-hover:shadow-[0_0_20px_-5px_var(--accent-color)]">
-                              <ScanSearch size={28} strokeWidth={1.5} />
+                  <div className="w-full max-w-5xl px-4 flex flex-col items-center">
+                      
+                      {/* HOW IT WORKS SECTION */}
+                      <div className="mt-8 w-full animate-in fade-in slide-in-from-bottom-4 duration-700 delay-100">
+                          <div className="text-center mb-10">
+                              <h3 className="text-2xl md:text-3xl font-bold text-github-text mb-3">
+                                  How it Works
+                              </h3>
+                              <p className="text-github-secondary text-base md:text-lg max-w-2xl mx-auto">
+                                  Go from zero to bounty-ready issue in 3 simple steps.
+                              </p>
                           </div>
-                          <h3 className="text-lg font-semibold text-github-text mb-3 group-hover:text-github-accent transition-colors text-center">Deep Analysis</h3>
-                          <p className="text-sm text-github-secondary leading-relaxed text-center">
-                              We analyze the repo structure and public info to find relevant gaps using advanced AI grounding.
-                          </p>
-                      </button>
 
-                      {/* Feature 2 */}
-                      <button onClick={() => navigateTo('features')} className="text-left group p-6 rounded-2xl bg-github-card border border-github-border hover:border-github-accent/50 transition-all duration-300 hover:shadow-lg hover:shadow-github-accent/5">
-                          <div className="w-14 h-14 rounded-xl bg-github-dark border border-github-border flex items-center justify-center mx-auto mb-6 text-purple-400 group-hover:scale-110 transition-transform duration-300 group-hover:shadow-[0_0_20px_-5px_#a78bfa]">
-                              <FileSignature size={28} strokeWidth={1.5} />
-                          </div>
-                          <h3 className="text-lg font-semibold text-github-text mb-3 group-hover:text-purple-400 transition-colors text-center">Perfect Markdown</h3>
-                          <p className="text-sm text-github-secondary leading-relaxed text-center">
-                              Issues are formatted with clear steps, reproduction guides, and proper headers ready for GitHub.
-                          </p>
-                      </button>
+                          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 relative">
+                              {/* Connector Line (Desktop) */}
+                              <div className="hidden md:block absolute top-1/2 left-0 w-full h-0.5 bg-gradient-to-r from-github-border via-github-accent/30 to-github-border -z-10 -translate-y-8"></div>
 
-                      {/* Feature 3 */}
-                      <button onClick={() => navigateTo('features')} className="text-left group p-6 rounded-2xl bg-github-card border border-github-border hover:border-github-accent/50 transition-all duration-300 hover:shadow-lg hover:shadow-github-accent/5">
-                          <div className="w-14 h-14 rounded-xl bg-github-dark border border-github-border flex items-center justify-center mx-auto mb-6 text-green-500 group-hover:scale-110 transition-transform duration-300 group-hover:shadow-[0_0_20px_-5px_#22c55e]">
-                              <Rocket size={28} strokeWidth={1.5} />
+                              {/* Step 1 */}
+                              <div className="group p-6 rounded-2xl bg-github-card border border-github-border hover:border-github-accent/50 transition-all duration-300 hover:shadow-lg hover:shadow-github-accent/5 flex flex-col items-center text-center relative">
+                                  <div className="w-12 h-12 rounded-full bg-github-page border-2 border-github-accent/50 text-github-accent flex items-center justify-center text-xl font-bold mb-4 shadow-[0_0_15px_-3px_var(--accent-color)] z-10 group-hover:scale-110 transition-transform duration-300">
+                                      1
+                                  </div>
+                                  <h4 className="text-lg font-semibold text-github-text mb-2 group-hover:text-github-accent transition-colors">Paste GitHub Repo URL</h4>
+                                  <p className="text-sm text-github-secondary">Simply copy and paste the link to any public GitHub repository you want to analyze.</p>
+                              </div>
+
+                              {/* Step 2 */}
+                              <div className="group p-6 rounded-2xl bg-github-card border border-github-border hover:border-github-accent/50 transition-all duration-300 hover:shadow-lg hover:shadow-github-accent/5 flex flex-col items-center text-center relative">
+                                  <div className="w-12 h-12 rounded-full bg-github-page border-2 border-purple-500/50 text-purple-400 flex items-center justify-center text-xl font-bold mb-4 shadow-[0_0_15px_-3px_#a78bfa] z-10 group-hover:scale-110 transition-transform duration-300">
+                                      2
+                                  </div>
+                                  <h4 className="text-lg font-semibold text-github-text mb-2 group-hover:text-purple-400 transition-colors">Add Project Goals (Optional)</h4>
+                                  <p className="text-sm text-github-secondary">Provide extra context to help the AI tailor its suggestions to your specific needs.</p>
+                              </div>
+
+                              {/* Step 3 */}
+                              <div className="group p-6 rounded-2xl bg-github-card border border-github-border hover:border-github-accent/50 transition-all duration-300 hover:shadow-lg hover:shadow-github-accent/5 flex flex-col items-center text-center relative">
+                                  <div className="w-12 h-12 rounded-full bg-github-page border-2 border-green-500/50 text-green-500 flex items-center justify-center text-xl font-bold mb-4 shadow-[0_0_15px_-3px_#22c55e] z-10 group-hover:scale-110 transition-transform duration-300">
+                                      3
+                                  </div>
+                                  <h4 className="text-lg font-semibold text-github-text mb-2 group-hover:text-green-400 transition-colors">1-Click Post Issue</h4>
+                                  <p className="text-sm text-github-secondary">
+                                      One-click export to GitHub, ready to post on <a href="https://app.lightningbounties.com/" className="text-github-accent hover:underline font-medium">Lightning Bounties</a>.
+                                  </p>
+                              </div>
                           </div>
-                          <h3 className="text-lg font-semibold text-github-text mb-3 group-hover:text-green-400 transition-colors text-center">Instant Posting</h3>
-                          <p className="text-sm text-github-secondary leading-relaxed text-center">
-                              One click opens the GitHub New Issue page with everything pre-filled. No manual copy-pasting.
-                          </p>
-                      </button>
+                      </div>
+
+                      {/* FEATURES SECTION */}
+                      <div className="mt-24 w-full mb-12 animate-in fade-in slide-in-from-bottom-4 duration-700 delay-200">
+                          <div className="text-center mb-10">
+                              <h3 className="text-2xl md:text-3xl font-bold text-github-text mb-3">
+                                  Why use Lightning Issues?
+                              </h3>
+                              <p className="text-github-secondary text-base md:text-lg max-w-2xl mx-auto">
+                                  Powerful features designed to optimize your open source workflow.
+                              </p>
+                          </div>
+
+                          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                              {/* Feature 1 */}
+                              <button onClick={() => navigateTo('features')} className="text-left group p-6 rounded-2xl bg-github-card border border-github-border hover:border-github-accent/50 transition-all duration-300 hover:shadow-lg hover:shadow-github-accent/5">
+                                  <div className="w-14 h-14 rounded-xl bg-github-dark border border-github-border flex items-center justify-center mx-auto mb-6 text-github-accent group-hover:scale-110 transition-transform duration-300 group-hover:shadow-[0_0_20px_-5px_var(--accent-color)]">
+                                      <ScanSearch size={28} strokeWidth={1.5} />
+                                  </div>
+                                  <h3 className="text-lg font-semibold text-github-text mb-3 group-hover:text-github-accent transition-colors text-center">Deep Analysis</h3>
+                                  <p className="text-sm text-github-secondary leading-relaxed text-center">
+                                      We analyze the repo structure and public info to find relevant gaps using advanced AI grounding.
+                                  </p>
+                              </button>
+
+                              {/* Feature 2 */}
+                              <button onClick={() => navigateTo('features')} className="text-left group p-6 rounded-2xl bg-github-card border border-github-border hover:border-github-accent/50 transition-all duration-300 hover:shadow-lg hover:shadow-github-accent/5">
+                                  <div className="w-14 h-14 rounded-xl bg-github-dark border border-github-border flex items-center justify-center mx-auto mb-6 text-purple-400 group-hover:scale-110 transition-transform duration-300 group-hover:shadow-[0_0_20px_-5px_#a78bfa]">
+                                      <FileSignature size={28} strokeWidth={1.5} />
+                                  </div>
+                                  <h3 className="text-lg font-semibold text-github-text mb-3 group-hover:text-purple-400 transition-colors text-center">Perfect Markdown</h3>
+                                  <p className="text-sm text-github-secondary leading-relaxed text-center">
+                                      Issues are formatted with clear steps, reproduction guides, and proper headers ready for GitHub.
+                                  </p>
+                              </button>
+
+                              {/* Feature 3 */}
+                              <button onClick={() => navigateTo('features')} className="text-left group p-6 rounded-2xl bg-github-card border border-github-border hover:border-github-accent/50 transition-all duration-300 hover:shadow-lg hover:shadow-github-accent/5">
+                                  <div className="w-14 h-14 rounded-xl bg-github-dark border border-github-border flex items-center justify-center mx-auto mb-6 text-green-500 group-hover:scale-110 transition-transform duration-300 group-hover:shadow-[0_0_20px_-5px_#22c55e]">
+                                      <Rocket size={28} strokeWidth={1.5} />
+                                  </div>
+                                  <h3 className="text-lg font-semibold text-github-text mb-3 group-hover:text-green-400 transition-colors text-center">Instant Posting</h3>
+                                  <p className="text-sm text-github-secondary leading-relaxed text-center">
+                                      One click opens the GitHub New Issue page with everything pre-filled. No manual copy-pasting.
+                                  </p>
+                              </button>
+                          </div>
+                      </div>
                   </div>
               )}
           </>
@@ -220,7 +282,7 @@ const App: React.FC = () => {
                           onClick={clearHistory}
                           className="flex items-center gap-2 px-3 py-1.5 text-sm text-red-400 hover:text-red-300 hover:bg-red-900/20 rounded-md transition-colors border border-transparent hover:border-red-900/30"
                       >
-                          <Trash2 size={14} /> Clear History
+                          <Trash size={14} /> Clear History
                       </button>
                   )}
               </div>
@@ -254,7 +316,7 @@ const App: React.FC = () => {
                                       className="p-2 text-github-secondary hover:text-red-400 hover:bg-github-border/50 rounded-full transition-colors opacity-0 group-hover:opacity-100"
                                       title="Delete from history"
                                   >
-                                      <Trash2 size={16} />
+                                      <Trash size={16} />
                                   </button>
                               </div>
                               <div className="flex items-center gap-4 text-xs text-github-secondary mb-3">
@@ -293,6 +355,7 @@ const App: React.FC = () => {
       {currentPage === 'features' && <Features />}
       {currentPage === 'about' && <About />}
       {currentPage === 'faq' && <FAQ />}
+      {currentPage === 'templates' && <IssueTemplates />}
     </Layout>
   );
 };

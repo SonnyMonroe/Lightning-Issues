@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { ExternalLink, Copy, Check, ChevronDown, ChevronUp, Bug, Lightbulb, FileText, Hammer, Pencil, X, Save, Image as ImageIcon, Smile, Bold, Italic, List, Maximize2, Minimize2, Search, Undo, Redo, Eye, EyeOff, ShieldAlert, Zap, Accessibility, TestTube, Palette, Wrench } from 'lucide-react';
+import { ExternalLink, Copy, Check, ChevronDown, ChevronUp, Bug, Lightbulb, FileText, Hammer, Pencil, X, Save, Image as ImageIcon, Smile, Bold, Italic, List, Maximize, Minimize, Search, Undo, Redo, Eye, EyeOff, ShieldAlert, Zap, Accessibility, FlaskConical, Palette, Wrench } from 'lucide-react';
 import { IssueSuggestion, IssueType, RepoInfo } from '../types';
 
 // Declare marked for TypeScript (loaded via CDN)
@@ -167,7 +167,7 @@ export const IssueCard: React.FC<IssueCardProps> = ({ suggestion, repoInfo }) =>
       case IssueType.SECURITY: return <ShieldAlert size={18} className="text-orange-600 dark:text-orange-400" />;
       case IssueType.PERFORMANCE: return <Zap size={18} className="text-yellow-600 dark:text-yellow-300" />;
       case IssueType.ACCESSIBILITY: return <Accessibility size={18} className="text-pink-600 dark:text-pink-400" />;
-      case IssueType.TEST: return <TestTube size={18} className="text-teal-600 dark:text-teal-400" />;
+      case IssueType.TEST: return <FlaskConical size={18} className="text-teal-600 dark:text-teal-400" />;
       case IssueType.CHORE: return <Wrench size={18} className="text-gray-600 dark:text-gray-400" />;
       case IssueType.DESIGN: return <Palette size={18} className="text-indigo-600 dark:text-indigo-400" />;
       default: return <Lightbulb size={18} className="text-gray-600 dark:text-gray-400" />;
@@ -398,7 +398,7 @@ export const IssueCard: React.FC<IssueCardProps> = ({ suggestion, repoInfo }) =>
 
                     <ToolbarButton 
                         onClick={() => setIsFullscreen(!isFullscreen)} 
-                        icon={isFullscreen ? Minimize2 : Maximize2} 
+                        icon={isFullscreen ? Minimize : Maximize} 
                         title={isFullscreen ? "Exit Full Screen" : "Full Screen"} 
                     />
                 </div>

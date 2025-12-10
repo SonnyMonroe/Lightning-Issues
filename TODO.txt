@@ -1,9 +1,23 @@
 TODO LIST
 
+COMPLETED
+[x] Implement "Regenerate" button to get 3 new suggestions.
+[x] Allow users to edit generated Markdown directly in the app.
+[x] Add a "History" tab to show previously generated issues.
+[x] Create a library of standard Issue Templates.
+[x] Implement Search Grounding for AI analysis.
+
+PLANNED FEATURES
 [ ] Add support for GitLab and Bitbucket repositories.
-[ ] Implement "Regenerate" button to get 3 new suggestions without re-entering inputs.
-[ ] Allow users to edit the generated Markdown directly in the app before clicking "Create".
-[ ] Save "Favorite" repos to local storage for quick access.
-[ ] Add a "History" tab to show previously generated issues.
-[ ] Improve error handling for repositories that have disabled Issues.
-[ ] Add support for custom API keys so users can use their own quota.
+[ ] Implement "Export to JSON" button for bulk issue data export.
+[ ] Add localization (i18n) support to analyze non-English repositories.
+[ ] Create a CLI version of Lightning Issues for terminal users.
+[ ] Add local storage persistence for "Favorite" repositories.
+[ ] Integrate a "One-Click Copy" for the entire analysis report.
+[x] Add a "Dark Mode" toggle persistence (save preference).
+
+DOCUMENTATION & COMMUNITY
+[ ] Create a video tutorial for the "How to Use" section.
+[ ] Add a "First Timers" guide to help new open source contributors.
+[ ] Improve error messages with specific troubleshooting steps for API limits.
+[ ] Create accessibility (a11y) audit report for the UI.
