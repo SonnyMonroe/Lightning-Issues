@@ -38,26 +38,55 @@ export const generateIssueSuggestions = async (
     specificInstructions += `\nCRITICAL INSTRUCTION: The user wants to scan for existing TODOs. Use Google Search to specifically look for "TODO", "FIXME" or "HACK" comments in the repository code (e.g. search query 'site:github.com/${repoInfo.owner}/${repoInfo.name} "TODO"'). If you find relevant TODOs, prioritize creating an issue to resolve them.\n`;
   }
 
+  // expanded perspectives list for greater diversity
+  const perspectives = [
+    "Focus strictly on Code Quality: Identify potential refactoring opportunities, dead code, or complex functions that need simplification.",
+    "Focus on User Experience (UX) & Accessibility: specific UI glitches, missing aria-labels, or mobile responsiveness issues.",
+    "Focus on Performance: potential bottlenecks, large bundle sizes, unoptimized images, or slow database queries.",
+    "Focus on Security: dependency vulnerabilities, hardcoded secrets (hypothetical check), or missing input validation.",
+    "Focus on Documentation: missing examples, unclear contribution guidelines, or outdated API references.",
+    "Focus on Edge Cases & Error Handling: places where the app might crash if an API fails or inputs are malformed.",
+    "Focus on Developer Experience: missing scripts in package.json, lack of tests, or complex setup instructions.",
+    "Focus on Modernization: upgrading old dependencies, switching to modern syntax (e.g., TS interfaces vs types), or adopting new framework features.",
+    "Focus on Community Health: adding issue templates, code of conduct, or improving the README for new contributors.",
+    "Focus on Testing: identifying areas that likely lack unit or integration test coverage."
+  ];
+  
+  // Pick 2 random perspectives to combine for a unique angle
+  const p1 = perspectives[Math.floor(Math.random() * perspectives.length)];
+  const p2 = perspectives[Math.floor(Math.random() * perspectives.length)];
+  const combinedPerspective = p1 === p2 ? p1 : `${p1} AND ${p2}`;
+  const randomSeed = Date.now(); // Force variation
+
   const prompt = `
     I have a GitHub repository at: ${repoUrl}
+    Analysis ID: ${randomSeed} (Use this to generate unique results different from previous runs)
     
-    Please analyze this repository. 
-    1. Use Google Search to understand what this repository does, its main technologies, and if there are any common known issues or missing obvious features.
-    2. Search specifically for "issues site:github.com/${repoInfo.owner}/${repoInfo.name}" to see existing problems.
-    ${scanTodos ? '3. Search for TODO/FIXME comments in the code as requested.' : '3. Suggest 3 distinct issues that could be created for this repository.'}
+    Please analyze this repository deeply acting as a Senior Staff Engineer.
+    1. Use Google Search to understand what this repository does, its main technologies, architecture, and recent activity.
+    2. Search specifically for "issues site:github.com/${repoInfo.owner}/${repoInfo.name}" to see existing problems and avoid duplicates.
+    ${scanTodos ? '3. Search for TODO/FIXME comments in the code as requested.' : '3. Suggest 3 distinct, non-trivial, and highly specific issues.'}
     
+    To ensure diversity and avoid generic responses, analyze the repo through this specific lens:
+    "${combinedPerspective}"
+    
+    CRITICAL INSTRUCTIONS FOR DIVERSITY:
+    - Do NOT suggest generic "Update README" or "Add CI" issues unless the repo is completely empty or you are specifically focusing on Community Health.
+    - Look for *specific* technical improvements based on the language (e.g., if React, suggest Hooks optimization; if Python, suggest typing improvements).
+    - If you cannot find deep code details via search, infer likely technical debt based on the project age and tech stack.
+    - Make the issues sound like they were written by a developer who has read the code.
+
     ${specificInstructions}
 
     For each suggestion, provide:
     - A clear, professional Title.
-    - A very detailed Body in GitHub-flavored Markdown. 
+    - A very detailed Body in GitHub-flavored Markdown. Include headers, code blocks where relevant, and a 'Tasks' list.
     - The type of issue (Bug, Feature, Refactor, Documentation).
-    - A short reasoning.
+    - A short reasoning explaining why this is valuable.
 
-    CRITICAL INSTRUCTION:
+    CRITICAL FALLBACK:
     If Google Search returns NO information (e.g. the repo is new, empty, or not indexed), DO NOT refuse to answer. 
-    Instead, generate 3 generic, high-quality "best practice" issue suggestions that would apply to almost any open-source project. 
-    Examples of fallback suggestions: "Add a Comprehensive README", "Set up GitHub Actions for CI", "Add Contribution Guidelines", "Create Issue Templates".
+    Instead, generate 3 generic, high-quality "best practice" issue suggestions that would apply to almost any open-source project, but TRY to tailor them to the likely language/tech stack if you can infer it.
     
     IMPORTANT OUTPUT FORMAT:
     You must return a valid JSON array.
@@ -68,10 +97,10 @@ export const generateIssueSuggestions = async (
     Example:
     [
       {
-        "title": "Example Title",
-        "body": "Example Body",
-        "type": "Feature",
-        "reasoning": "Reasoning here"
+        "title": "Refactor [ComponentName] to use Composition Pattern",
+        "body": "Detailed description...",
+        "type": "Refactor",
+        "reasoning": "Reduces complexity..."
       }
     ]
   `;

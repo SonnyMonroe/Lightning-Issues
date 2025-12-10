@@ -43,8 +43,8 @@ export const Layout: React.FC<LayoutProps> = ({ children }) => {
     setIsMobileMenuOpen(!isMobileMenuOpen);
   };
 
-  // Using relative path 'images/logo.svg' which maps to 'public/images/logo.svg' in standard setups.
-  const logoSrc = 'images/logo.png';
+  const headerLogoSrc = 'images/logo.png';
+  const footerLogoSrc = 'images/logo2.png';
 
   return (
     <div className="flex flex-col min-h-screen bg-github-dark text-github-text font-sans selection:bg-github-accent selection:text-white transition-colors duration-300">
@@ -56,7 +56,7 @@ export const Layout: React.FC<LayoutProps> = ({ children }) => {
             <div className="flex-shrink-0">
               {!imageError ? (
                 <img 
-                  src={logoSrc}
+                  src={headerLogoSrc}
                   alt="Lightning Bounties" 
                   className="h-12 w-auto object-contain"
                   onError={() => setImageError(true)}
@@ -123,12 +123,12 @@ export const Layout: React.FC<LayoutProps> = ({ children }) => {
         <div className="max-w-5xl mx-auto px-4">
             {/* Top Brand Section - Full width on mobile to avoid squishing */}
             <div className="mb-6 md:mb-8">
-                <div className="mb-4">
+                <div className="-mb-14">
                   {!imageError ? (
                     <img 
-                        src={logoSrc}
+                        src={footerLogoSrc}
                         alt="Lightning Bounties" 
-                        className="h-12 w-auto object-contain"
+                        className="h-64 w-auto object-contain object-left"
                         onError={() => setImageError(true)}
                     />
                   ) : (
@@ -138,8 +138,8 @@ export const Layout: React.FC<LayoutProps> = ({ children }) => {
                      </span>
                   )}
                 </div>
-                <p className="text-sm text-github-secondary leading-relaxed max-w-md">
-                    Empowering developers to maintain healthier open source repositories with AI-driven insights and automated workflows.
+                <p className="text-sm text-github-secondary leading-relaxed max-w-md relative z-10">
+                    The official issue generator for Lightning Bounties. Create professional, bounty-ready issues in seconds and streamline your path to earning rewards in open source.
                 </p>
             </div>
 
