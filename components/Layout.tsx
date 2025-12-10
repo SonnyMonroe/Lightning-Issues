@@ -152,8 +152,8 @@ export const Layout: React.FC<LayoutProps> = ({ children, onNavigate, currentPag
             <div className="flex flex-col lg:flex-row gap-10 lg:gap-20">
                 
                 {/* Brand Section - Left */}
-                <div className="lg:w-5/12 flex flex-col items-start">
-                    <div className="relative -ml-4 -mt-6 mb-4 z-0">
+                <div className="lg:w-4/12 flex flex-col items-start">
+                    <div className="relative mb-4 z-0">
                       {!imageError ? (
                         <img 
                             src={footerLogoSrc}
@@ -168,14 +168,23 @@ export const Layout: React.FC<LayoutProps> = ({ children, onNavigate, currentPag
                          </span>
                       )}
                     </div>
-                    <p className="text-sm text-github-secondary leading-relaxed relative z-10">
+                    <p className="text-sm text-github-secondary leading-relaxed relative z-10 block max-w-sm">
                         The official issue generator for Lightning Bounties. Create professional, bounty-ready issues in seconds and streamline your path to earning rewards in open source.
                     </p>
                 </div>
 
-                {/* Links Section - Right (3 Cols) */}
-                <div className="lg:w-7/12 grid grid-cols-2 sm:grid-cols-3 gap-8">
+                {/* Links Section - Right (4 Cols) */}
+                <div className="lg:w-8/12 grid grid-cols-2 sm:grid-cols-4 gap-8">
                     
+                    {/* Platform (New) */}
+                    <div>
+                        <h3 className="font-semibold text-github-text mb-4 text-sm md:text-base">Platform</h3>
+                        <ul className="space-y-3 text-xs md:text-sm text-github-secondary">
+                            <li><a href="https://app.lightningbounties.com/" className="hover:text-github-accent transition-colors">Browse Bounties</a></li>
+                            <li><a href="https://www.lightningbounties.com/" className="hover:text-github-accent transition-colors">Website</a></li>
+                        </ul>
+                    </div>
+
                     {/* Explore */}
                     <div>
                         <h3 className="font-semibold text-github-text mb-4 text-sm md:text-base">Explore</h3>
