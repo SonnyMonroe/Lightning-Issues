@@ -1,7 +1,21 @@
 import { GoogleGenAI } from "@google/genai";
-import { IssueSuggestion, IssueType } from "../types";
+import { IssueSuggestion } from "../types";
 
-const ai = new GoogleGenAI({ apiKey: process.env.API_KEY });
+// DEBUGGING LOGS
+const viteKey = import.meta.env.VITE_GEMINI_API_KEY;
+console.log("🔍 [DEBUG] Key Check:");
+console.log("  - import.meta.env.VITE_GEMINI_API_KEY:", viteKey ? "Exists (starts with " + viteKey.substring(0, 4) + "...)" : "UNDEFINED");
+
+const apiKey = viteKey || '';
+
+if (!apiKey) {
+  console.error("❌ [DEBUG] API Key is MISSING. App will likely crash or fail requests.");
+} else {
+  console.log("✅ [DEBUG] API Key found.");
+}
+
+const ai = new GoogleGenAI({ apiKey });
+// --- FIX END ---
 
 export const parseRepoUrl = (url: string): { owner: string; name: string } | null => {
   try {
